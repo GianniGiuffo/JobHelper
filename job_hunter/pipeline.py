@@ -37,9 +37,11 @@ class Pipeline:
         if any(normalize(e.quote) not in normalize(text) for e in profile.evidence_spans):
             raise AdapterError("cv_evidence_not_in_document")
         profile_data = profile.model_dump()
-        # Explicit skills/technologies must occur in CV; adjacent roles remain labeled inferences.
-        for key in ("skills", "technologies"):
+        # All explicit fields must be literal excerpts; proposed roles remain labeled inferences.
+        for key in ("skills", "technologies", "projects", "experiences", "education", "languages"):
             profile_data[key] = [s for s in profile_data[key] if normalize(s) in normalize(text)]
+        if len(text) > 18000:
+            profile_data["warnings"].append("CV limitato ai primi 18000 caratteri per il contesto del modello.")
         run["data"]["profile"] = profile_data
         run["data"]["profile_id"] = run["data"]["cv_hash"]
         try:
@@ -182,6 +184,9 @@ class Pipeline:
         allowed = set(ctx["record"]["source_urls"])
         if any(u not in allowed for u in result.evidence_urls):
             raise AdapterError("fit_unknown_evidence_url")
+        profile = run["data"]["profile"]
+        skills = {normalize(s) for s in profile["skills"] + profile["technologies"]}
+        result.matched_skills = [s for s in result.matched_skills if normalize(s) in skills]
         ctx["record"]["fit"] = result.model_dump()
 
     async def openings(self, run, company_id):

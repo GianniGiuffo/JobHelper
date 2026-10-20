@@ -156,7 +156,9 @@ async def test_crawl_sanitizes_raw_html_and_cache(settings):
         requests.append(payload)
         raw = payload["urls"][0]
         assert raw.startswith("raw:") and "<script" not in raw and "<iframe" not in raw and "src=" not in raw
-        assert payload["crawler_config"]["params"]["process_in_browser"] is False
+        # 0.9.5 defaults raw HTML to the non-browser path, and refuses these knobs over HTTP.
+        assert "process_in_browser" not in payload["crawler_config"]["params"]
+        assert "base_url" not in payload["crawler_config"]["params"]
         return httpx.Response(200, json={"results": [{"success": True, "markdown": {"raw_markdown": "Azienda fittizia"}}]})
     adapter = Adapters(settings, Store(settings.data_dir), httpx.AsyncClient(transport=httpx.MockTransport(mock)))
     async def public(url):

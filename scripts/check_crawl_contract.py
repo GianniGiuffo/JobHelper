@@ -18,7 +18,9 @@ with httpx.Client(timeout=60) as client:
         json={"urls": ["raw:<html><body><h1>Impresa Fittizia</h1><p>Software dimostrativo senza dati reali.</p></body></html>"],
               "browser_config": {"type": "BrowserConfig", "params": {"headless": True, "java_script_enabled": False}},
               "crawler_config": {"type": "CrawlerRunConfig", "params": {"stream": False, "cache_mode": "bypass",
-                  "process_in_browser": False, "base_url": "https://example.org/", "verbose": False}}})
+                  "word_count_threshold": 1, "verbose": False}}})
+    if response.status_code >= 400:
+        print("Errore contratto su HTML sintetico:", response.status_code, response.text[:1500])
     response.raise_for_status()
     result = response.json()["results"][0]
     assert result["success"] is True

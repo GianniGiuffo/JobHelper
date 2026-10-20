@@ -222,8 +222,8 @@ class Adapters:
             json={"urls": ["raw:" + str(soup)],
                   "browser_config": {"type": "BrowserConfig", "params": {"headless": True, "java_script_enabled": False}},
                   "crawler_config": {"type": "CrawlerRunConfig", "params": {
-                      "stream": False, "cache_mode": "bypass", "process_in_browser": False,
-                      "base_url": page.url, "verbose": False}}}, timeout=60)
+                      "stream": False, "cache_mode": "bypass", "word_count_threshold": 1,
+                      "verbose": False}}}, timeout=60)
         result = response.json().get("results", [])
         if not result or not result[0].get("success"):
             raise AdapterError("crawl4ai_extraction_failed")

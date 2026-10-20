@@ -13,6 +13,7 @@ Il pilota con CV reale e 20 aziende richiede servizi configurati e autorizzazion
 - 67 test offline passati su Windows/Python 3.11, con dipendenze vincolate in `requirements.lock` e report JUnit generato localmente. Una deprecazione upstream riguarda il trasporto HTTPX del solo TestClient, non l'esecuzione dell'app.
 - Scansione file pubblicabili senza token o email personali riconosciuti; schemi coerenti con i validatori e collegamenti dei 16 workflow verificati.
 - Test di integrazione container predisposti in CI: import n8n, contratto Crawl4AI raw e avvio Compose/adattatore/SearXNG. Esito da leggere nelle Actions dopo pubblicazione; non eseguiti localmente perché Docker non è disponibile.
+- Prima esecuzione CI: test offline, import reale dei 16 workflow in n8n 2.44.4 e build/avvio adattatore + SearXNG passati. Lo smoke test Crawl4AI ha rilevato che `base_url` e `process_in_browser`, anche falso, sono vietati nel contratto HTTP 0.9.5; adattatore corretto per usare il default raw senza browser e mantenere l'URL fonte fuori dal payload del crawler. Nuova verifica del container richiesta prima di chiudere il collaudo.
 - Nessun CV reale elaborato, nessun servizio LAN modificato, nessuna email o candidatura inviata.
 
 La scelta Nominatim pubblico per uso occasionale, con cache/rate limit/attribuzione e policy, è stata confermata dall'utilizzatore. L'uso periodico o sistematico richiede un provider dedicato.
