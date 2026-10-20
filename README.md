@@ -22,7 +22,7 @@ flowchart LR
 
 Versione iniziale 0.1.0. I test locali offline coprono PDF → profilo → piano → discovery → aziende/contatti → export, due CV distinti, flag bozze, errori parziali, budget, geografia e protezioni di rete. Usano esclusivamente dati fittizi. Non dimostrano la qualità di un modello reale o la copertura delle ricerche web.
 
-Target degli export: **n8n 2.44.4** (Form Trigger 2.6), **Crawl4AI 0.9.5**, SearXNG bloccato a commit/digest. L'importazione reale dei workflow e il contratto del crawler hanno job CI dedicati. I risultati effettivi si consultano in GitHub Actions; non si presume che un job ancora non eseguito sia passato. Il pilota LAN resta da eseguire con servizi configurati e CV autorizzato: [milestone e collaudo](docs/milestones.md).
+Target degli export: **n8n 2.44.4** (Form Trigger 2.6), **Crawl4AI 0.9.5**, SearXNG bloccato a commit/digest. La [CI verificata](https://github.com/GianniGiuffo/JobHelper/actions/runs/39435030778) ha superato 68 test offline, importazione reale dei 16 workflow in n8n, build/avvio dell'adattatore con SearXNG e contratto del crawler reale su HTML sintetico. Il pilota LAN resta da eseguire con servizi configurati e CV autorizzato: [milestone e collaudo](docs/milestones.md).
 
 ## Avvio rapido
 

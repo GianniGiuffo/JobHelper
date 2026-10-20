@@ -39,3 +39,5 @@ La CI non usa il tuo server, Ollama, Nextcloud, Stirling o CV personali. Leggi g
 ## Stato della consegna
 
 La verifica locale iniziale è registrata in `docs/milestones.md`. L'ambiente di sviluppo Windows non dispone di Docker o dei servizi LAN; un risultato locale offline non viene presentato come esecuzione end-to-end dell'installazione n8n reale.
+
+La [CI 6353158](https://github.com/GianniGiuffo/JobHelper/actions/runs/39435030778) ha completato con successo tutti i quattro job: 68 test offline e i tre controlli container descritti sopra. Il pilota con Ollama e fonti web reali rimane distinto e richiede la configurazione locale.

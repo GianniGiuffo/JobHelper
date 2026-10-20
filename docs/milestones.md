@@ -18,6 +18,12 @@ Il pilota con CV reale e 20 aziende richiede servizi configurati e autorizzazion
 
 La scelta Nominatim pubblico per uso occasionale, con cache/rate limit/attribuzione e policy, è stata confermata dall'utilizzatore. L'uso periodico o sistematico richiede un provider dedicato.
 
+## Collaudo CI concluso
+
+La [CI della revisione 6353158](https://github.com/GianniGiuffo/JobHelper/actions/runs/39435030778) è passata in tutti e quattro i job: 68 test offline su Linux, import reale dei 16 workflow in n8n 2.44.4, build/avvio Compose dell'adattatore e SearXNG, contratto raw HTML con Crawl4AI 0.9.5 reale. Gli stessi 68 test sono passati localmente su Windows. La correzione del contratto HTTP è quindi verificata anche sul container, e non soltanto con mock.
+
+Resta da svolgere il pilota sulla LAN con Ollama, endpoint/credenziali dell'installazione e un CV autorizzato. Non è stato svolto un benchmark semantico del modello o un collaudo delle istanze personali Stirling/Nextcloud. Le integrazioni opzionali sono coperte da test di contratto simulati.
+
 ## Contratti consultati
 
 - [n8n Form Trigger](https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.formtrigger/): pulsante nativo, default, autenticazione, `options.path`.
