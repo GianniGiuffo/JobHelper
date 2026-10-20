@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "score": {
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Score",
+      "type": "integer"
+    },
+    "confidence": {
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "title": "Confidence",
+      "type": "string"
+    },
+    "fit_level": {
+      "enum": [
+        "alto",
+        "medio",
+        "basso",
+        "da_verificare"
+      ],
+      "title": "Fit Level",
+      "type": "string"
+    },
+    "suggested_roles": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10,
+      "title": "Suggested Roles",
+      "type": "array"
+    },
+    "matched_skills": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30,
+      "title": "Matched Skills",
+      "type": "array"
+    },
+    "missing_skills": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30,
+      "title": "Missing Skills",
+      "type": "array"
+    },
+    "reason": {
+      "maxLength": 1200,
+      "title": "Reason",
+      "type": "string"
+    },
+    "evidence_urls": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10,
+      "title": "Evidence Urls",
+      "type": "array"
+    }
+  },
+  "required": [
+    "score",
+    "confidence",
+    "fit_level",
+    "suggested_roles",
+    "matched_skills",
+    "missing_skills",
+    "reason",
+    "evidence_urls"
+  ],
+  "title": "Fit",
+  "type": "object"
+}

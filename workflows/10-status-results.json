@@ -1,0 +1,236 @@
+{
+  "id": "ajh5e9b440dce575",
+  "name": "AI Job Hunter / 10-status-results",
+  "active": false,
+  "nodes": [
+    {
+      "id": "0f61751f-ae56-56c2-a41f-48ce9104ea5b",
+      "name": "Modulo",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "authentication": "n8nUserAuth",
+        "formTitle": "AI Job Hunter — Stato e risultati",
+        "formDescription": "Installazione personale. Nessun invio di email o candidature. I siti senza offerte restano nei risultati. Geocodifica © OpenStreetMap contributors (ODbL): https://www.openstreetmap.org/copyright",
+        "formFields": {
+          "values": [
+            {
+              "fieldName": "run_id",
+              "fieldLabel": "Identificativo ricerca",
+              "fieldType": "text",
+              "requiredField": true
+            },
+            {
+              "fieldName": "format",
+              "fieldLabel": "Visualizzazione",
+              "fieldType": "dropdown",
+              "requiredField": true,
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "stato"
+                  },
+                  {
+                    "option": "csv"
+                  },
+                  {
+                    "option": "json"
+                  }
+                ]
+              },
+              "defaultValue": "stato"
+            }
+          ]
+        },
+        "responseMode": "lastNode",
+        "options": {
+          "path": "ai-job-hunter-risultati",
+          "buttonLabel": "Consulta / scarica",
+          "includeUserInOutput": false
+        }
+      },
+      "webhookId": "9af8cb9a-8382-5cc4-81e0-fc143c5743be"
+    },
+    {
+      "id": "5a3d79e4-5fca-567d-bc7d-5e011844aa1b",
+      "name": "Solo stato",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        240,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "check",
+              "leftValue": "={{ $json.format === 'stato' }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "43e5fecb-7cf0-54de-8699-5364a3ba4169",
+      "name": "Leggi stato",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        0
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "=http://hunter:8000/runs/{{ $json.run_id }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 1900000
+        }
+      }
+    },
+    {
+      "id": "57b6444a-6d56-5ee8-b279-011d533fd5bd",
+      "name": "Stato ricerca",
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        720,
+        0
+      ],
+      "parameters": {
+        "operation": "completion",
+        "respondWith": "text",
+        "completionTitle": "Stato ricerca",
+        "completionMessage": "={{ JSON.stringify($json).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') }}",
+        "options": {}
+      },
+      "webhookId": "53df1581-c5f4-550c-8f52-93a2b0f9955e"
+    },
+    {
+      "id": "6a082a35-6e39-5a1b-a5ad-bc83d3a62546",
+      "name": "Scarica export",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        960,
+        0
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "=http://hunter:8000/runs/{{ $json.run_id }}/export/{{ $json.format }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "data"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "0c1566d5-570b-51e8-9a83-398b012b8ab7",
+      "name": "Export risultati",
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        1200,
+        0
+      ],
+      "parameters": {
+        "operation": "completion",
+        "respondWith": "returnBinary",
+        "completionTitle": "Export risultati",
+        "completionMessage": "Esportazione locale. Nessuna candidatura inviata.",
+        "options": {},
+        "inputDataFieldName": "data"
+      },
+      "webhookId": "fca2e34b-f7cc-5172-8c90-1111341fd495"
+    }
+  ],
+  "connections": {
+    "Modulo": {
+      "main": [
+        [
+          {
+            "node": "Solo stato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Solo stato": {
+      "main": [
+        [
+          {
+            "node": "Leggi stato",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Scarica export",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leggi stato": {
+      "main": [
+        [
+          {
+            "node": "Stato ricerca",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scarica export": {
+      "main": [
+        [
+          {
+            "node": "Export risultati",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataSuccessExecution": "none",
+    "saveDataErrorExecution": "none",
+    "saveExecutionProgress": false,
+    "saveManualExecutions": false,
+    "executionTimeout": 7200,
+    "timezone": "Europe/Rome"
+  },
+  "pinData": {}
+}

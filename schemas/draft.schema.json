@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "subject": {
+      "maxLength": 200,
+      "minLength": 3,
+      "title": "Subject",
+      "type": "string"
+    },
+    "body_text": {
+      "maxLength": 5000,
+      "minLength": 20,
+      "title": "Body Text",
+      "type": "string"
+    },
+    "language": {
+      "enum": [
+        "it",
+        "en"
+      ],
+      "title": "Language",
+      "type": "string"
+    },
+    "tailoring_facts": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10,
+      "title": "Tailoring Facts",
+      "type": "array"
+    },
+    "source_urls": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10,
+      "title": "Source Urls",
+      "type": "array"
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10,
+      "title": "Warnings",
+      "type": "array"
+    },
+    "status": {
+      "const": "draft",
+      "title": "Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "subject",
+    "body_text",
+    "language",
+    "tailoring_facts",
+    "source_urls",
+    "warnings",
+    "status"
+  ],
+  "title": "Draft",
+  "type": "object"
+}

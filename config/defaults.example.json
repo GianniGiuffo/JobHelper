@@ -1,0 +1,13 @@
+{
+  "profile_name": "CV",
+  "city": "Torino",
+  "radius_km": 30,
+  "max_companies": 20,
+  "max_search_queries": 25,
+  "max_pages_per_company": 6,
+  "min_fit_score": 0,
+  "include_companies_without_jobs": true,
+  "language": "it",
+  "sectors": "",
+  "notes": ""
+}

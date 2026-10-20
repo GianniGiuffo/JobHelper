@@ -1,0 +1,302 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "Draft": {
+      "additionalProperties": false,
+      "properties": {
+        "subject": {
+          "maxLength": 200,
+          "minLength": 3,
+          "title": "Subject",
+          "type": "string"
+        },
+        "body_text": {
+          "maxLength": 5000,
+          "minLength": 20,
+          "title": "Body Text",
+          "type": "string"
+        },
+        "language": {
+          "enum": [
+            "it",
+            "en"
+          ],
+          "title": "Language",
+          "type": "string"
+        },
+        "tailoring_facts": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 10,
+          "title": "Tailoring Facts",
+          "type": "array"
+        },
+        "source_urls": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 10,
+          "title": "Source Urls",
+          "type": "array"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 10,
+          "title": "Warnings",
+          "type": "array"
+        },
+        "status": {
+          "const": "draft",
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "subject",
+        "body_text",
+        "language",
+        "tailoring_facts",
+        "source_urls",
+        "warnings",
+        "status"
+      ],
+      "title": "Draft",
+      "type": "object"
+    },
+    "Fact": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "name",
+            "industry",
+            "activity",
+            "technology",
+            "address",
+            "career",
+            "person"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "value": {
+          "maxLength": 300,
+          "minLength": 1,
+          "title": "Value",
+          "type": "string"
+        },
+        "quote": {
+          "maxLength": 600,
+          "minLength": 3,
+          "title": "Quote",
+          "type": "string"
+        },
+        "source_url": {
+          "maxLength": 2048,
+          "title": "Source Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "value",
+        "quote",
+        "source_url"
+      ],
+      "title": "Fact",
+      "type": "object"
+    },
+    "Fit": {
+      "additionalProperties": false,
+      "properties": {
+        "score": {
+          "maximum": 100,
+          "minimum": 0,
+          "title": "Score",
+          "type": "integer"
+        },
+        "confidence": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "title": "Confidence",
+          "type": "string"
+        },
+        "fit_level": {
+          "enum": [
+            "alto",
+            "medio",
+            "basso",
+            "da_verificare"
+          ],
+          "title": "Fit Level",
+          "type": "string"
+        },
+        "suggested_roles": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 10,
+          "title": "Suggested Roles",
+          "type": "array"
+        },
+        "matched_skills": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Matched Skills",
+          "type": "array"
+        },
+        "missing_skills": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 30,
+          "title": "Missing Skills",
+          "type": "array"
+        },
+        "reason": {
+          "maxLength": 1200,
+          "title": "Reason",
+          "type": "string"
+        },
+        "evidence_urls": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 10,
+          "title": "Evidence Urls",
+          "type": "array"
+        }
+      },
+      "required": [
+        "score",
+        "confidence",
+        "fit_level",
+        "suggested_roles",
+        "matched_skills",
+        "missing_skills",
+        "reason",
+        "evidence_urls"
+      ],
+      "title": "Fit",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "company_id": {
+      "title": "Company Id",
+      "type": "string"
+    },
+    "company_name": {
+      "title": "Company Name",
+      "type": "string"
+    },
+    "website": {
+      "title": "Website",
+      "type": "string"
+    },
+    "industry": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Industry"
+    },
+    "facts": {
+      "items": {
+        "$ref": "#/$defs/Fact"
+      },
+      "title": "Facts",
+      "type": "array"
+    },
+    "location": {
+      "additionalProperties": true,
+      "title": "Location",
+      "type": "object"
+    },
+    "fit": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Fit"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "vacancies": {
+      "additionalProperties": true,
+      "title": "Vacancies",
+      "type": "object"
+    },
+    "contacts": {
+      "items": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Contacts",
+      "type": "array"
+    },
+    "source_urls": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Source Urls",
+      "type": "array"
+    },
+    "checked_at": {
+      "title": "Checked At",
+      "type": "string"
+    },
+    "is_spontaneous_application_candidate": {
+      "default": true,
+      "title": "Is Spontaneous Application Candidate",
+      "type": "boolean"
+    },
+    "application_status": {
+      "default": "da_valutare",
+      "title": "Application Status",
+      "type": "string"
+    },
+    "notes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Notes",
+      "type": "array"
+    },
+    "email_draft": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Draft"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "company_id",
+    "company_name",
+    "website",
+    "checked_at"
+  ],
+  "title": "Company",
+  "type": "object"
+}

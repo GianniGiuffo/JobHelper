@@ -1,0 +1,18 @@
+{
+  "00-ui-start": "ajh86f46c89f4b25",
+  "01-cv-parse": "ajh9da46fc631f45",
+  "02-ai-plan": "ajh052bcf9aee855",
+  "03-company-discovery": "ajhc539f83172a15",
+  "04-company-enrich": "ajh89f574904b745",
+  "05-ai-fit": "ajh7a1e5d92c3e55",
+  "06-job-openings": "ajha0c469f053da5",
+  "07-professional-contacts": "ajhc9cb4a4fab8f5",
+  "08-persist-export": "ajh514d01c0c7495",
+  "09-email-drafts": "ajhc70ad0c8a00f5",
+  "10-status-results": "ajh5e9b440dce575",
+  "11-healthcheck": "ajhbd63eb33755f5",
+  "runner": "ajh9ecbc82e35ec5",
+  "12-nextcloud-import": "ajh0a649277d5ea5",
+  "13-data-table-sync": "ajh9bfb73374e005",
+  "14-nextcloud-export": "ajhac14b55951085"
+}

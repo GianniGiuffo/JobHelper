@@ -1,0 +1,128 @@
+# Termini professionali pubblici autorizzati nelle query derivate dal CV.
+# Una riga per termine, nessun nome personale o contatto. Estendibile dall'amministratore.
+software
+sviluppo
+programmazione
+informatica
+assistenza
+hardware
+help desk
+sistemista
+reti
+sicurezza
+cybersecurity
+cloud
+devops
+frontend
+backend
+full stack
+web
+mobile
+database
+sql
+postgresql
+mysql
+sqlite
+python
+java
+javascript
+typescript
+c#
+c++
+.net
+asp.net
+unity
+unreal
+blender
+3d
+cad
+autocad
+solidworks
+revit
+bim
+rendering
+animazione
+videogiochi
+simulazione
+digital twin
+react
+angular
+vue
+node.js
+php
+laravel
+wordpress
+html
+css
+git
+docker
+kubernetes
+linux
+windows
+excel
+office
+power bi
+analisi dati
+data science
+machine learning
+intelligenza artificiale
+automazione
+elettronica
+elettrotecnica
+meccanica
+meccatronica
+manutenzione
+industria
+produzione
+qualità
+logistica
+magazzino
+trasporti
+acquisti
+amministrazione
+contabilità
+bilancio
+finanza
+segreteria
+risorse umane
+recruiting
+vendite
+commerciale
+marketing
+comunicazione
+social media
+grafica
+design
+photoshop
+illustrator
+indesign
+figma
+ux
+ui
+fotografia
+video
+traduzione
+lingue
+formazione
+educazione
+turismo
+ristorazione
+ospitalità
+architettura
+edilizia
+ingegneria
+ambiente
+energia
+agricoltura
+chimica
+biologia
+laboratorio
+ricerca
+sanità
+assistenza clienti
+customer service
+customer care
+junior
+entry level
+tirocinio
+apprendistato

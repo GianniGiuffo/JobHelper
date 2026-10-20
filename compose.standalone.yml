@@ -1,0 +1,37 @@
+# Overlay: docker compose -f compose.addons.yml -f compose.standalone.yml up -d --build
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:2.44.4
+    restart: unless-stopped
+    ports:
+      - "${N8N_BIND_ADDRESS:-127.0.0.1}:5678:5678"
+    environment:
+      TZ: Europe/Rome
+      GENERIC_TIMEZONE: Europe/Rome
+      N8N_ENCRYPTION_KEY_FILE: /run/secrets/n8n_encryption_key
+      N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
+      N8N_DIAGNOSTICS_ENABLED: "false"
+      N8N_VERSION_NOTIFICATIONS_ENABLED: "false"
+      N8N_TEMPLATES_ENABLED: "false"
+      N8N_PAYLOAD_SIZE_MAX: "12"
+      N8N_FORMDATA_FILE_SIZE_MAX: "10"
+      EXECUTIONS_DATA_SAVE_ON_ERROR: none
+      EXECUTIONS_DATA_SAVE_ON_SUCCESS: none
+      EXECUTIONS_DATA_SAVE_MANUAL_EXECUTIONS: "false"
+      EXECUTIONS_DATA_PRUNE: "true"
+      EXECUTIONS_DATA_MAX_AGE: "24"
+      N8N_DEFAULT_BINARY_DATA_MODE: filesystem
+      N8N_SECURE_COOKIE: ${N8N_SECURE_COOKIE:-true}
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./workflows:/workflows:ro
+    secrets: [n8n_encryption_key]
+    networks: [hunter]
+    mem_limit: 1536m
+    cpus: 1.5
+    security_opt: [no-new-privileges:true]
+volumes:
+  n8n_data:
+secrets:
+  n8n_encryption_key:
+    file: ./secrets/n8n_encryption_key

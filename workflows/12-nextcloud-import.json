@@ -1,0 +1,98 @@
+{
+  "id": "ajh0a649277d5ea5",
+  "name": "AI Job Hunter / 12-nextcloud-import",
+  "active": false,
+  "nodes": [
+    {
+      "id": "b8027cc8-a6f9-5f9e-a08a-9df56ca9a318",
+      "name": "Input",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "d65de7ae-81e7-5ddf-8fe5-6a6e24f60a48",
+      "name": "Importa CV autorizzato",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        240,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://hunter:8000/runs/import",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 1900000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {path: $json.path, parameters: $json.parameters || {}} }}"
+      }
+    },
+    {
+      "id": "6a121aba-f7f8-5139-a548-4d113c99ea33",
+      "name": "Avvia in background",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        480,
+        0
+      ],
+      "parameters": {
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "value": "ajh9ecbc82e35ec5",
+          "mode": "id"
+        },
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Input": {
+      "main": [
+        [
+          {
+            "node": "Importa CV autorizzato",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Importa CV autorizzato": {
+      "main": [
+        [
+          {
+            "node": "Avvia in background",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataSuccessExecution": "none",
+    "saveDataErrorExecution": "none",
+    "saveExecutionProgress": false,
+    "saveManualExecutions": false,
+    "executionTimeout": 7200,
+    "timezone": "Europe/Rome"
+  },
+  "pinData": {}
+}

@@ -1,0 +1,9 @@
+{
+  "fixture_only": true,
+  "company_name": "Impresa Fittizia",
+  "website": "https://example.org/",
+  "text": "Impresa Fittizia: software. Sede operativa Via Esempio 1, Torino. Contatto aziendale info@example.org.",
+  "vacancies_status": "not_found",
+  "distance_km": null,
+  "notes": ["Tutti i dati sono dimostrativi. Nessuna azienda, email o sede è verificata nel mondo reale."]
+}

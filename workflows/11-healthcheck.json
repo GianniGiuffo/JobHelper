@@ -1,0 +1,60 @@
+{
+  "id": "ajhbd63eb33755f5",
+  "name": "AI Job Hunter / 11-healthcheck",
+  "active": false,
+  "nodes": [
+    {
+      "id": "380affc6-479f-5e58-b703-1338aeb51f50",
+      "name": "Avvio manuale",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "c8cc9325-f7e9-5a57-b166-0964fcb9db10",
+      "name": "Diagnostica",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        240,
+        0
+      ],
+      "parameters": {
+        "method": "GET",
+        "url": "http://hunter:8000/health",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 1900000
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Avvio manuale": {
+      "main": [
+        [
+          {
+            "node": "Diagnostica",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataSuccessExecution": "none",
+    "saveDataErrorExecution": "none",
+    "saveExecutionProgress": false,
+    "saveManualExecutions": false,
+    "executionTimeout": 7200,
+    "timezone": "Europe/Rome"
+  },
+  "pinData": {}
+}

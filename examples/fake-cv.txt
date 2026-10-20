@@ -1,0 +1,9 @@
+CV FITTIZIO — SOLO TEST, NESSUNA PERSONA REALE
+
+Profilo: sviluppo software junior.
+Competenze dichiarate: Python, SQL, Git, Linux.
+Progetto dimostrativo: piccolo archivio personale scritto in Python con SQLite.
+Formazione: percorso dimostrativo di informatica, senza titoli o date reali.
+Obiettivo: ruolo junior nello sviluppo o assistenza tecnica, vicino alla località scelta.
+
+Non usare questo testo come CV di una persona. I test generano un PDF sintetico in memoria.

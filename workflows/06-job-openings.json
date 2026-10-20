@@ -1,0 +1,65 @@
+{
+  "id": "ajha0c469f053da5",
+  "name": "AI Job Hunter / 06-job-openings",
+  "active": false,
+  "nodes": [
+    {
+      "id": "b8027cc8-a6f9-5f9e-a08a-9df56ca9a318",
+      "name": "Input",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "99a107f9-db99-589e-9df6-e28fadb0e428",
+      "name": "Esegui openings",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        240,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://hunter:8000/stage/openings",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 1900000
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { run_id: $json.run_id, ...($json.company_id ? {company_id: $json.company_id} : {}) } }}"
+      }
+    }
+  ],
+  "connections": {
+    "Input": {
+      "main": [
+        [
+          {
+            "node": "Esegui openings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataSuccessExecution": "none",
+    "saveDataErrorExecution": "none",
+    "saveExecutionProgress": false,
+    "saveManualExecutions": false,
+    "executionTimeout": 7200,
+    "timezone": "Europe/Rome"
+  },
+  "pinData": {}
+}

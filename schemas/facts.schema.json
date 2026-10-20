@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "Fact": {
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "name",
+            "industry",
+            "activity",
+            "technology",
+            "address",
+            "career",
+            "person"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "value": {
+          "maxLength": 300,
+          "minLength": 1,
+          "title": "Value",
+          "type": "string"
+        },
+        "quote": {
+          "maxLength": 600,
+          "minLength": 3,
+          "title": "Quote",
+          "type": "string"
+        },
+        "source_url": {
+          "maxLength": 2048,
+          "title": "Source Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "value",
+        "quote",
+        "source_url"
+      ],
+      "title": "Fact",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "facts": {
+      "items": {
+        "$ref": "#/$defs/Fact"
+      },
+      "maxItems": 40,
+      "title": "Facts",
+      "type": "array"
+    },
+    "priority_urls": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 6,
+      "title": "Priority Urls",
+      "type": "array"
+    }
+  },
+  "required": [
+    "facts",
+    "priority_urls"
+  ],
+  "title": "Facts",
+  "type": "object"
+}

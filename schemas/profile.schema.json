@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "claim": {
+          "maxLength": 300,
+          "title": "Claim",
+          "type": "string"
+        },
+        "quote": {
+          "maxLength": 500,
+          "minLength": 3,
+          "title": "Quote",
+          "type": "string"
+        }
+      },
+      "required": [
+        "claim",
+        "quote"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "language": {
+      "enum": [
+        "it",
+        "en",
+        "other"
+      ],
+      "title": "Language",
+      "type": "string"
+    },
+    "skills": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30,
+      "title": "Skills",
+      "type": "array"
+    },
+    "technologies": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 30,
+      "title": "Technologies",
+      "type": "array"
+    },
+    "projects": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10,
+      "title": "Projects",
+      "type": "array"
+    },
+    "experiences": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10,
+      "title": "Experiences",
+      "type": "array"
+    },
+    "education": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10,
+      "title": "Education",
+      "type": "array"
+    },
+    "languages": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10,
+      "title": "Languages",
+      "type": "array"
+    },
+    "preferred_roles": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10,
+      "title": "Preferred Roles",
+      "type": "array"
+    },
+    "adjacent_roles": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10,
+      "title": "Adjacent Roles",
+      "type": "array"
+    },
+    "seniority": {
+      "maxLength": 100,
+      "title": "Seniority",
+      "type": "string"
+    },
+    "constraints": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10,
+      "title": "Constraints",
+      "type": "array"
+    },
+    "evidence_spans": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "maxItems": 30,
+      "minItems": 1,
+      "title": "Evidence Spans",
+      "type": "array"
+    },
+    "warnings": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 20,
+      "title": "Warnings",
+      "type": "array"
+    }
+  },
+  "required": [
+    "language",
+    "skills",
+    "technologies",
+    "projects",
+    "experiences",
+    "education",
+    "languages",
+    "preferred_roles",
+    "adjacent_roles",
+    "seniority",
+    "constraints",
+    "evidence_spans",
+    "warnings"
+  ],
+  "title": "Profile",
+  "type": "object"
+}

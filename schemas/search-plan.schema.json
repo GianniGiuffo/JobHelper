@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$defs": {
+    "Query": {
+      "additionalProperties": false,
+      "properties": {
+        "terms": {
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 5,
+          "minItems": 1,
+          "title": "Terms",
+          "type": "array"
+        },
+        "purpose": {
+          "maxLength": 200,
+          "title": "Purpose",
+          "type": "string"
+        }
+      },
+      "required": [
+        "terms",
+        "purpose"
+      ],
+      "title": "Query",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "categories": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 10,
+      "minItems": 1,
+      "title": "Categories",
+      "type": "array"
+    },
+    "queries": {
+      "items": {
+        "$ref": "#/$defs/Query"
+      },
+      "maxItems": 25,
+      "minItems": 1,
+      "title": "Queries",
+      "type": "array"
+    },
+    "priority_signals": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 15,
+      "title": "Priority Signals",
+      "type": "array"
+    }
+  },
+  "required": [
+    "categories",
+    "queries",
+    "priority_signals"
+  ],
+  "title": "SearchPlan",
+  "type": "object"
+}

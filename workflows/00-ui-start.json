@@ -1,0 +1,238 @@
+{
+  "id": "ajh86f46c89f4b25",
+  "name": "AI Job Hunter / 00-ui-start",
+  "active": false,
+  "nodes": [
+    {
+      "id": "0f61751f-ae56-56c2-a41f-48ce9104ea5b",
+      "name": "Modulo",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "authentication": "n8nUserAuth",
+        "formTitle": "AI Job Hunter — Nuova ricerca",
+        "formDescription": "Installazione personale. Nessun invio di email o candidature. I siti senza offerte restano nei risultati. Geocodifica © OpenStreetMap contributors (ODbL): https://www.openstreetmap.org/copyright",
+        "formFields": {
+          "values": [
+            {
+              "fieldName": "cv",
+              "fieldLabel": "Curriculum PDF",
+              "fieldType": "file",
+              "requiredField": true,
+              "acceptFileTypes": ".pdf",
+              "multipleFiles": false
+            },
+            {
+              "fieldName": "profile_name",
+              "fieldLabel": "Nome del profilo / CV",
+              "fieldType": "text",
+              "requiredField": true,
+              "defaultValue": "CV"
+            },
+            {
+              "fieldName": "city",
+              "fieldLabel": "Città / località",
+              "fieldType": "text",
+              "requiredField": true,
+              "defaultValue": "Torino"
+            },
+            {
+              "fieldName": "radius_km",
+              "fieldLabel": "Raggio massimo (km in linea d'aria)",
+              "fieldType": "number",
+              "requiredField": true,
+              "defaultValue": "30"
+            },
+            {
+              "fieldName": "max_companies",
+              "fieldLabel": "Numero massimo di aziende",
+              "fieldType": "number",
+              "requiredField": true,
+              "defaultValue": "20"
+            },
+            {
+              "fieldName": "max_search_queries",
+              "fieldLabel": "Limite query totali",
+              "fieldType": "number",
+              "requiredField": true,
+              "defaultValue": "25"
+            },
+            {
+              "fieldName": "max_pages_per_company",
+              "fieldLabel": "Pagine per azienda",
+              "fieldType": "number",
+              "requiredField": true,
+              "defaultValue": "6"
+            },
+            {
+              "fieldName": "min_fit_score",
+              "fieldLabel": "Compatibilità minima (0–100)",
+              "fieldType": "number",
+              "requiredField": true,
+              "defaultValue": "0"
+            },
+            {
+              "fieldName": "language",
+              "fieldLabel": "Lingua ricerca",
+              "fieldType": "dropdown",
+              "requiredField": true,
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "it"
+                  },
+                  {
+                    "option": "en"
+                  }
+                ]
+              },
+              "defaultValue": "it"
+            },
+            {
+              "fieldName": "sectors",
+              "fieldLabel": "Suggerimenti settori / esclusioni",
+              "fieldType": "text",
+              "requiredField": false
+            },
+            {
+              "fieldName": "notes",
+              "fieldLabel": "Note e vincoli",
+              "fieldType": "textarea",
+              "requiredField": false
+            }
+          ]
+        },
+        "responseMode": "lastNode",
+        "options": {
+          "path": "ai-job-hunter",
+          "buttonLabel": "Avvia ricerca",
+          "includeUserInOutput": false
+        }
+      },
+      "webhookId": "642e09df-af67-5d6b-96e8-d63204a1ffe4"
+    },
+    {
+      "id": "9e5067cb-ca62-5e9d-ac17-cf2c6b628dc6",
+      "name": "Crea ricerca",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        240,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "http://hunter:8000/runs",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 30000
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "cv"
+            },
+            {
+              "name": "parameters",
+              "value": "={{ JSON.stringify({profile_name: $json.profile_name || '', city: $json.city || '', radius_km: Number($json.radius_km), max_companies: Number($json.max_companies), max_search_queries: Number($json.max_search_queries), max_pages_per_company: Number($json.max_pages_per_company), min_fit_score: Number($json.min_fit_score), language: $json.language || '', sectors: $json.sectors || '', notes: $json.notes || ''}) }}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "6a121aba-f7f8-5139-a548-4d113c99ea33",
+      "name": "Avvia in background",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        480,
+        0
+      ],
+      "parameters": {
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "value": "ajh9ecbc82e35ec5",
+          "mode": "id"
+        },
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      }
+    },
+    {
+      "id": "da84ce14-094b-53e9-ad10-18ae6d5b3b7c",
+      "name": "Ricerca avviata",
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        720,
+        0
+      ],
+      "parameters": {
+        "operation": "completion",
+        "respondWith": "text",
+        "completionTitle": "Ricerca avviata",
+        "completionMessage": "={{ 'Identificativo: ' + $json.run_id + '<br>Consulta il form ai-job-hunter-risultati per stato e download CSV/JSON. Nessuna email verrà inviata.' }}",
+        "options": {}
+      },
+      "webhookId": "08002883-5490-51d6-a26f-e67e6eae18ab"
+    }
+  ],
+  "connections": {
+    "Modulo": {
+      "main": [
+        [
+          {
+            "node": "Crea ricerca",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Crea ricerca": {
+      "main": [
+        [
+          {
+            "node": "Avvia in background",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Avvia in background": {
+      "main": [
+        [
+          {
+            "node": "Ricerca avviata",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataSuccessExecution": "none",
+    "saveDataErrorExecution": "none",
+    "saveExecutionProgress": false,
+    "saveManualExecutions": false,
+    "executionTimeout": 7200,
+    "timezone": "Europe/Rome"
+  },
+  "pinData": {}
+}

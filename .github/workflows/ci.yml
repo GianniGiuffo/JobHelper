@@ -1,0 +1,67 @@
+name: Verifiche MVP
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  offline-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: pip install -c requirements.lock -e '.[test]'
+      - run: python -m pytest -q --junitxml=test-results/offline.xml
+      - run: python scripts/check_public_files.py
+      - run: python -m scripts.generate_schemas && python scripts/generate_workflows.py && git diff --exit-code
+      - run: python scripts/setup.py && docker compose -f compose.addons.yml -f compose.standalone.yml config --quiet
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-report
+          path: test-results/*.xml
+  n8n-import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Importazione reale CLI su database temporaneo isolato
+        run: >-
+          docker run --rm
+          -e N8N_DIAGNOSTICS_ENABLED=false
+          -v "$PWD/workflows:/workflows:ro"
+          docker.n8n.io/n8nio/n8n:2.44.4
+          import:workflow --separate --input=/workflows
+  crawl4ai-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install httpx==0.28.1
+      - name: Avvio crawler isolato con credenziale temporanea
+        run: |
+          CRAWL_TEST_TOKEN=$(openssl rand -hex 32)
+          echo "::add-mask::$CRAWL_TEST_TOKEN"
+          echo "CRAWL_TEST_TOKEN=$CRAWL_TEST_TOKEN" >> "$GITHUB_ENV"
+          docker run -d --name crawler --memory 1536m --shm-size 256m -p 127.0.0.1:11235:11235 -e CRAWL4AI_API_TOKEN="$CRAWL_TEST_TOKEN" unclecode/crawl4ai:0.9.5@sha256:0b05666882bfb67f45d559a5b827839c54127b74aedd723f8ab338a3571b5fc9
+      - run: python scripts/check_crawl_contract.py
+  compose-services:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python scripts/setup.py
+      - name: Build adattatore e avvio SearXNG con configurazione reale
+        run: docker compose -f compose.addons.yml up -d --build hunter searxng
+      - name: Verifica avvio privato e API SearXNG
+        run: |
+          for attempt in $(seq 1 30); do
+            if docker compose -f compose.addons.yml exec -T hunter python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/live', timeout=3); urllib.request.urlopen('http://searxng:8080/healthz', timeout=3)"; then exit 0; fi
+            sleep 2
+          done
+          docker compose -f compose.addons.yml logs --tail=40 hunter searxng
+          exit 1

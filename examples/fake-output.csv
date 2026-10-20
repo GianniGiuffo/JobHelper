@@ -1,0 +1,2 @@
+run_id,cv_profile,company_name,company_website,industry,city,distance_km,suggested_role,fit_score,fit_reason,vacancies_status,vacancy_title,vacancy_url,contact_name,contact_role,contact_email,general_email,contact_source_url,company_source_url,checked_at,application_status,notes
+fixture-only,CV fittizio,Impresa Fittizia,https://example.org/,software,,,,,Dati dimostrativi senza valutazione reale,not_found,,,,,,info@example.org,https://example.org/,https://example.org/,,da_valutare,SOLO FIXTURE - nessun dato reale verificato

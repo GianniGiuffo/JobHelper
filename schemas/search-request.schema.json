@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "profile_name": {
+      "default": "CV",
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Profile Name",
+      "type": "string"
+    },
+    "city": {
+      "default": "Torino",
+      "maxLength": 120,
+      "minLength": 1,
+      "title": "City",
+      "type": "string"
+    },
+    "radius_km": {
+      "default": 30,
+      "exclusiveMinimum": 0,
+      "maximum": 1000,
+      "title": "Radius Km",
+      "type": "number"
+    },
+    "max_companies": {
+      "default": 20,
+      "maximum": 100,
+      "minimum": 1,
+      "title": "Max Companies",
+      "type": "integer"
+    },
+    "max_search_queries": {
+      "default": 25,
+      "maximum": 100,
+      "minimum": 1,
+      "title": "Max Search Queries",
+      "type": "integer"
+    },
+    "max_pages_per_company": {
+      "default": 6,
+      "maximum": 10,
+      "minimum": 1,
+      "title": "Max Pages Per Company",
+      "type": "integer"
+    },
+    "min_fit_score": {
+      "default": 0,
+      "maximum": 100,
+      "minimum": 0,
+      "title": "Min Fit Score",
+      "type": "integer"
+    },
+    "include_companies_without_jobs": {
+      "const": true,
+      "default": true,
+      "title": "Include Companies Without Jobs",
+      "type": "boolean"
+    },
+    "language": {
+      "default": "it",
+      "enum": [
+        "it",
+        "en"
+      ],
+      "title": "Language",
+      "type": "string"
+    },
+    "sectors": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Sectors",
+      "type": "string"
+    },
+    "notes": {
+      "default": "",
+      "maxLength": 500,
+      "title": "Notes",
+      "type": "string"
+    }
+  },
+  "title": "SearchRequest",
+  "type": "object"
+}
